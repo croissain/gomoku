@@ -1,23 +1,13 @@
-import { useState } from "react";
-
-const Square = ({ value, bold }) => {
-  const [xIsNext, setXIsNext] = useState(null);
-
-  const handleClick = () => {
-    setXIsNext(() => {
-      console.log("render");
-      return xIsNext === "X" ? "O" : "X";
-    });
-  };
-
+const Square = ({ bold, row, col, index, value, onClick }) => {
   return (
     <button
       className={`square ${bold ? "bold" : ""}`}
-      onClick={() => {
-        handleClick();
-      }}
+      row={row}
+      col={col}
+      onClick={onClick}
     >
-      {xIsNext}
+      <span className="square-index">{index}</span>
+      {value}
     </button>
   );
 };

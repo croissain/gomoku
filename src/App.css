@@ -1,6 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
   margin: 20px;
+}
+
+#main {
+  width: 83.33%;
+  float: left;
+}
+
+#sidebar {
+  width: 16.66%;
+  height: 100vh;
+  float: left;
+  background-color: #eee;
+  padding: 20px;
 }
 
 ol,
@@ -22,6 +39,15 @@ ul {
   margin-bottom: 10px;
 }
 
+.square-index {
+  font-size: 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 12px;
+  color: #999;
+}
+
 .square {
   background: #fff;
   border: 1px solid #999;
@@ -35,6 +61,7 @@ ul {
   padding: 0;
   text-align: center;
   width: 34px;
+  position: relative;
 }
 
 .square:focus {

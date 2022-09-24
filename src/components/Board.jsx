@@ -1,30 +1,32 @@
 import Square from "./Square";
-const Board = () => {
-  const renderSquare = () => {
-    return <Square value={null}></Square>;
+
+const Board = ({ width, height, squares, onClick, boldLine }) => {
+  const renderSquare = (row, col, index) => {
+    return (
+      <Square
+        row={row}
+        col={col}
+        index={index}
+        value={squares[index]}
+        onClick={() => onClick(index)}
+        bold={boldLine && boldLine.includes(index)}
+      ></Square>
+    );
   };
 
-  const status = "X";
-  return (
-    <div className="board">
-      <div className="status">Next player: {status}</div>
-      <div className="board-row">
-        {renderSquare(0)}
-        {renderSquare(1)}
-        {renderSquare(2)}
-      </div>
-      <div className="board-row">
-        {renderSquare(3)}
-        {renderSquare(4)}
-        {renderSquare(5)}
-      </div>
-      <div className="board-row">
-        {renderSquare(6)}
-        {renderSquare(7)}
-        {renderSquare(8)}
-      </div>
-    </div>
-  );
+  return Array(height)
+    .fill(null)
+    .map((_, i) => {
+      return (
+        <div key={i} className="board-row">
+          {Array(width)
+            .fill(null)
+            .map((_, j) => {
+              return renderSquare(j, i, i * width + j);
+            })}
+        </div>
+      );
+    });
 };
 
 export default Board;
