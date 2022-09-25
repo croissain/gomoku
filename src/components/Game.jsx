@@ -24,7 +24,7 @@ const Game = ({ width, height }) => {
         {
           squares: squares,
           index: i,
-          coordinate: [i % width, Math.floor(i / height)],
+          coordinate: [i % width, (i / height).toFixed()],
           isXTurn: state.xIsNext,
         },
       ]),
@@ -41,8 +41,6 @@ const Game = ({ width, height }) => {
       stepNumber: step,
       xIsNext: step % 2 === 0,
     });
-    console.log("jump on " + step);
-    console.log(state);
   };
 
   // const calculateWinner = (squares) => {
@@ -142,6 +140,7 @@ const Game = ({ width, height }) => {
       )
         line.push(index + i * (width + 1));
     }
+    console.log(line);
     return line;
   };
 
@@ -171,7 +170,6 @@ const Game = ({ width, height }) => {
 
   const render = () => {
     const history = state.history;
-    const current = history[history.length - 1];
 
     const moves = history.map((step, move) => {
       const desc = move
@@ -179,12 +177,12 @@ const Game = ({ width, height }) => {
         pos ${step.index}
         (${step.coordinate[0]};${step.coordinate[1]})`
         : "Go to game start";
-      // return [move, step.isXTurn, () => jumpTo(move), desc];
-      return (
-        <li key={move}>
-          <button onClick={() => jumpTo(move)}>{desc}</button>
-        </li>
-      );
+      return [state, move, step.isXTurn, () => jumpTo(move), desc];
+      // return (
+      //   <li key={move}>
+      //     <button onClick={() => jumpTo(move)}>{desc}</button>
+      //   </li>
+      // );
     });
 
     return (
@@ -195,7 +193,7 @@ const Game = ({ width, height }) => {
               <Board
                 width={width}
                 height={height}
-                squares={current.squares}
+                squares={state.history[state.stepNumber].squares}
                 onClick={(i) => handleClick(i)}
                 markWinner={line}
               />
@@ -206,11 +204,13 @@ const Game = ({ width, height }) => {
                   ? "Winner: " + winner
                   : "Next player: " + (state.xIsNext ? "X" : "O")}
               </div>
-              <ol>{moves}</ol>
+              {/* <ol>{moves}</ol> */}
             </div>
           </div>
         </div>
-        <div id="sidebar">{/* <Sidebar moves={moves}></Sidebar> */}</div>
+        <div id="sidebar">
+          <Sidebar state={state} winner={winner} moves={moves}></Sidebar>
+        </div>
       </>
     );
   };

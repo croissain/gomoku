@@ -24,16 +24,16 @@ function App() {
         <label>Board Size </label>
         <input
           type="range"
-          min="9"
-          max="30"
+          min={min}
+          max={max}
           value={width}
           onChange={handleBoardWidthChange}
         />
         <span> x </span>
         <input
           type="range"
-          min="9"
-          max="30"
+          min={min}
+          max={max}
           value={height}
           onChange={handleBoardHeightChange}
         />

@@ -96,9 +96,9 @@ li {
   background: #ddd;
 }
 
-.history-selected button {
-  background: #ccc;
-  border: 2px solid #ccc;
+.history-selected {
+  background: #fff;
+  border: 2px solid #fff;
 }
 
 .bold {

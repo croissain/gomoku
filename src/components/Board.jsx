@@ -4,6 +4,7 @@ const Board = ({ width, height, squares, onClick, markWinner }) => {
   const renderSquare = (row, col, index) => {
     return (
       <Square
+        key={index}
         row={row}
         col={col}
         index={index}
