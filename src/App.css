@@ -130,3 +130,21 @@ li {
 .player-2 {
   background-color: royalblue;
 }
+
+.slider {
+  display: flex;
+}
+
+.slider-label {
+  display: inline-block;
+  width: 20px;
+}
+
+.slider-input {
+  width: 100%;
+}
+
+.sidebar-settings {
+  display: flex;
+  justify-content: space-between;
+}

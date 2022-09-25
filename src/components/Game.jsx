@@ -2,7 +2,14 @@ import { useState } from "react";
 import Board from "./Board";
 import Sidebar from "./Sidebar";
 
-const Game = ({ width, height }) => {
+const Game = () => {
+  const min = 9;
+  const max = 30;
+  const [width, setWidth] = useState(9);
+  const [height, setHeight] = useState(10);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const [state, setState] = useState({
     history: [
       {
@@ -12,6 +19,36 @@ const Game = ({ width, height }) => {
     stepNumber: 0,
     xIsNext: true,
   });
+
+  const handleBoardClick = () => {
+    console.log("are isPlaying");
+    setIsPlaying(true);
+  };
+
+  const handleBoardWidthChange = (e) => {
+    if (!isPlaying) {
+      setWidth(+e.target.value || min);
+    }
+  };
+
+  const handleBoardHeightChange = (e) => {
+    if (!isPlaying) {
+      setHeight(+e.target.value || min);
+    }
+  };
+
+  const handleResetClick = () => {
+    setIsPlaying(false);
+    setState({
+      history: [
+        {
+          squares: Array(width * height).fill(null),
+        },
+      ],
+      stepNumber: 0,
+      xIsNext: true,
+    });
+  };
 
   const handleClick = (i) => {
     const history = state.history.slice(0, state.stepNumber + 1);
@@ -31,7 +68,7 @@ const Game = ({ width, height }) => {
       stepNumber: history.length,
       xIsNext: !state.xIsNext,
     });
-
+    handleBoardClick();
     calculateWinner(squares, width);
   };
 
@@ -92,6 +129,7 @@ const Game = ({ width, height }) => {
             return [squares[i], line];
           }
         }
+        console.log(lines);
       }
     }
 
@@ -124,7 +162,7 @@ const Game = ({ width, height }) => {
   const getColumn = (index, width, height) => {
     let line = [];
     for (let i = 0; i < 5; i++) {
-      if ((index + i * width) / height < height - 1) {
+      if ((index + i * width) / width < height - 1) {
         line.push(index + i * width);
       }
     }
@@ -136,7 +174,7 @@ const Game = ({ width, height }) => {
     for (let i = 0; i < 5; i++) {
       if (
         (index % width) + i < width &&
-        Math.floor((index + i * width) / height) < height - 1
+        Math.floor((index + i * width) / width) < height - 1
       )
         line.push(index + i * (width + 1));
     }
@@ -149,7 +187,7 @@ const Game = ({ width, height }) => {
     for (let i = 0; i < 5; i++) {
       if (
         (index % width) - i + 1 > 0 &&
-        Math.floor((index + i * width) / height) < height - 1
+        Math.floor((index + i * width) / width) < height - 1
       )
         line.push(index + i * (width - 1));
     }
@@ -177,6 +215,7 @@ const Game = ({ width, height }) => {
         pos ${step.index}
         (${step.coordinate[0]};${step.coordinate[1]})`
         : "Go to game start";
+
       return [state, move, step.isXTurn, () => jumpTo(move), desc];
       // return (
       //   <li key={move}>
@@ -201,7 +240,18 @@ const Game = ({ width, height }) => {
           </div>
         </div>
         <div id="sidebar">
-          <Sidebar state={state} winner={winner} moves={moves}></Sidebar>
+          <Sidebar
+            state={state}
+            winner={winner}
+            moves={moves}
+            min={min}
+            max={max}
+            width={width}
+            height={height}
+            onWidthChange={handleBoardWidthChange}
+            onHeightChange={handleBoardHeightChange}
+            onResetClick={() => handleResetClick()}
+          ></Sidebar>
         </div>
       </>
     );
