@@ -12,6 +12,7 @@ const Sidebar = ({
   height,
   onWidthChange,
   onHeightChange,
+  isPlaying,
   onResetClick,
 }) => {
   const [sortAsc, setSortAsc] = useState(true);
@@ -29,6 +30,7 @@ const Sidebar = ({
         height={height}
         onWidthChange={onWidthChange}
         onHeightChange={onHeightChange}
+        isPlaying={isPlaying}
       />
       <div className="sidebar-settings">
         <button onClick={onResetClick}>Reset</button>

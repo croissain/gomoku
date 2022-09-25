@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Modal from "react-modal";
+
 import Board from "./Board";
 import Sidebar from "./Sidebar";
 
@@ -19,6 +21,8 @@ const Game = () => {
     stepNumber: 0,
     xIsNext: true,
   });
+
+  const [modalOnResultIsOpen, setModalOnResultIsOpen] = useState(true);
 
   const handleBoardClick = () => {
     console.log("are isPlaying");
@@ -250,6 +254,7 @@ const Game = () => {
             height={height}
             onWidthChange={handleBoardWidthChange}
             onHeightChange={handleBoardHeightChange}
+            isPlaying={isPlaying}
             onResetClick={() => handleResetClick()}
           ></Sidebar>
         </div>

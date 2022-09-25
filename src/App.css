@@ -131,6 +131,10 @@ li {
   background-color: royalblue;
 }
 
+.hide {
+  display: none;
+}
+
 .slider {
   display: flex;
 }
