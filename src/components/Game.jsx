@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Board from "./Board";
+import Sidebar from "./Sidebar";
 
 const Game = ({ width, height }) => {
   const [state, setState] = useState({
@@ -19,13 +20,29 @@ const Game = ({ width, height }) => {
     if (calculateWinner(squares, width)[0] || squares[i]) return;
     squares[i] = state.xIsNext ? "X" : "O";
     setState({
-      history: history.concat([{ squares: squares }]),
+      history: history.concat([
+        {
+          squares: squares,
+          index: i,
+          coordinate: [i % width, Math.floor(i / height)],
+          isXTurn: state.xIsNext,
+        },
+      ]),
       stepNumber: history.length,
       xIsNext: !state.xIsNext,
     });
 
     calculateWinner(squares, width);
-    // console.log(squares);
+  };
+
+  const jumpTo = (step) => {
+    setState({
+      ...state,
+      stepNumber: step,
+      xIsNext: step % 2 === 0,
+    });
+    console.log("jump on " + step);
+    console.log(state);
   };
 
   // const calculateWinner = (squares) => {
@@ -67,16 +84,12 @@ const Game = ({ width, height }) => {
     for (let i = 0; i < squares.length; i++) {
       if (squares[i]) {
         const lines = getLines(i, width);
-        console.log("lines ");
-        console.log(lines);
         for (let j = 0; j < lines.length; j++) {
           let line = lines[j];
           let lineValues = [];
           for (let k = 0; k < line.length; k++) {
             lineValues.push(squares[line[k]]);
           }
-          console.log("lineVal");
-          console.log(lineValues);
           if (winningLines.find((l) => arrayCompare(l, lineValues))) {
             return [squares[i], line];
           }
@@ -97,7 +110,6 @@ const Game = ({ width, height }) => {
     if (getSubDiagonal(index, width, height).length === 5) {
       lines.push(getSubDiagonal(index, width, height));
     }
-    console.log(lines);
     return lines;
   };
 
@@ -161,23 +173,45 @@ const Game = ({ width, height }) => {
     const history = state.history;
     const current = history[history.length - 1];
 
-    let status;
+    const moves = history.map((step, move) => {
+      const desc = move
+        ? `Go to move #${move} ${step.isXTurn ? "X" : "O"}
+        pos ${step.index}
+        (${step.coordinate[0]};${step.coordinate[1]})`
+        : "Go to game start";
+      // return [move, step.isXTurn, () => jumpTo(move), desc];
+      return (
+        <li key={move}>
+          <button onClick={() => jumpTo(move)}>{desc}</button>
+        </li>
+      );
+    });
+
     return (
-      <div className="game">
-        <div className="game-board">
-          <Board
-            width={width}
-            height={height}
-            squares={current.squares}
-            onClick={(i) => handleClick(i)}
-            boldLine={line}
-          />
+      <>
+        <div id="main">
+          <div className="game">
+            <div className="game-board">
+              <Board
+                width={width}
+                height={height}
+                squares={current.squares}
+                onClick={(i) => handleClick(i)}
+                markWinner={line}
+              />
+            </div>
+            <div className="game-info">
+              <div>
+                {winner
+                  ? "Winner: " + winner
+                  : "Next player: " + (state.xIsNext ? "X" : "O")}
+              </div>
+              <ol>{moves}</ol>
+            </div>
+          </div>
         </div>
-        <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
-        </div>
-      </div>
+        <div id="sidebar">{/* <Sidebar moves={moves}></Sidebar> */}</div>
+      </>
     );
   };
 

@@ -1,6 +1,6 @@
 import Square from "./Square";
 
-const Board = ({ width, height, squares, onClick, boldLine }) => {
+const Board = ({ width, height, squares, onClick, markWinner }) => {
   const renderSquare = (row, col, index) => {
     return (
       <Square
@@ -9,7 +9,7 @@ const Board = ({ width, height, squares, onClick, boldLine }) => {
         index={index}
         value={squares[index]}
         onClick={() => onClick(index)}
-        bold={boldLine && boldLine.includes(index)}
+        markWinner={markWinner && markWinner.includes(index)}
       ></Square>
     );
   };

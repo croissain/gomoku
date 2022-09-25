@@ -1,7 +1,7 @@
-const Square = ({ bold, row, col, index, value, onClick }) => {
+const Square = ({ markWinner, row, col, index, value, onClick }) => {
   return (
     <button
-      className={`square ${bold ? "bold" : ""}`}
+      className={`square ${markWinner ? "bold" : ""}`}
       row={row}
       col={col}
       onClick={onClick}

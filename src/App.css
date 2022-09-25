@@ -7,6 +7,16 @@ body {
   margin: 20px;
 }
 
+ul,
+ol {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
 #main {
   width: 83.33%;
   float: left;
@@ -18,11 +28,6 @@ body {
   float: left;
   background-color: #eee;
   padding: 20px;
-}
-
-ol,
-ul {
-  padding-left: 30px;
 }
 
 .size-field {
@@ -103,4 +108,25 @@ ul {
 .flex-reverse {
   display: flex;
   flex-direction: column-reverse;
+}
+
+.history-cell {
+  display: flex;
+}
+
+.history-desc {
+  width: 100%;
+}
+
+.player-1,
+.player-2 {
+  width: 20px;
+}
+
+.player-1 {
+  background-color: brown;
+}
+
+.player-2 {
+  background-color: royalblue;
 }

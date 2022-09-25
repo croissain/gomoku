@@ -20,28 +20,25 @@ function App() {
 
   return (
     <div className="App">
-      <div id="main">
-        <div className="size-field">
-          <label>Board Size </label>
-          <input
-            type="range"
-            min="9"
-            max="30"
-            value={width}
-            onChange={handleBoardWidthChange}
-          />
-          <span> x </span>
-          <input
-            type="range"
-            min="9"
-            max="30"
-            value={height}
-            onChange={handleBoardHeightChange}
-          />
-        </div>
-        <Game width={width} height={height} />
+      <div className="size-field">
+        <label>Board Size </label>
+        <input
+          type="range"
+          min="9"
+          max="30"
+          value={width}
+          onChange={handleBoardWidthChange}
+        />
+        <span> x </span>
+        <input
+          type="range"
+          min="9"
+          max="30"
+          value={height}
+          onChange={handleBoardHeightChange}
+        />
       </div>
-      <div id="sidebar">ád</div>
+      <Game width={width} height={height} />
     </div>
   );
 }
