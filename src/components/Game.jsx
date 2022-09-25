@@ -198,14 +198,6 @@ const Game = ({ width, height }) => {
                 markWinner={line}
               />
             </div>
-            <div className="game-info">
-              <div>
-                {winner
-                  ? "Winner: " + winner
-                  : "Next player: " + (state.xIsNext ? "X" : "O")}
-              </div>
-              {/* <ol>{moves}</ol> */}
-            </div>
           </div>
         </div>
         <div id="sidebar">
