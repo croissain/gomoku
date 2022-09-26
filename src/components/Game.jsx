@@ -61,7 +61,7 @@ const Game = () => {
         {
           squares: squares,
           index: i,
-          coordinate: [i / width, Math.round(i / height)],
+          coordinate: [Math.floor(i / width), i % height],
           isXTurn: state.xIsNext,
         },
       ]),
