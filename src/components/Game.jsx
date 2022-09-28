@@ -70,7 +70,7 @@ const Game = () => {
         {
           squares: squares,
           index: i,
-          coordinate: [i % width, (i / height).toFixed()],
+          coordinate: [Math.floor(i / width), i % height],
           isXTurn: state.xIsNext,
         },
       ]),
