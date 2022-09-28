@@ -1,16 +1,18 @@
 import { useState } from "react";
-import Modal from "react-modal";
+// import Modal from "react-modal";
 
 import Board from "./Board";
 import Sidebar from "./Sidebar";
 
 const Game = () => {
   const min = 9;
-  const max = 30;
-  const [width, setWidth] = useState(9);
-  const [height, setHeight] = useState(10);
+  const maxWidth = 46;
+  const maxHeight = 28;
+  const [width, setWidth] = useState(min);
+  const [height, setHeight] = useState(min);
 
   const [isPlaying, setIsPlaying] = useState(false);
+  const [xCount, setXCount] = useState(0);
 
   const [state, setState] = useState({
     history: [
@@ -22,10 +24,11 @@ const Game = () => {
     xIsNext: true,
   });
 
-  const [modalOnResultIsOpen, setModalOnResultIsOpen] = useState(true);
+  const [lastMove, setLastMove] = useState(null);
+
+  // const [modalOnResultIsOpen, setModalOnResultIsOpen] = useState(true);
 
   const handleBoardClick = () => {
-    console.log("are isPlaying");
     setIsPlaying(true);
   };
 
@@ -43,6 +46,8 @@ const Game = () => {
 
   const handleResetClick = () => {
     setIsPlaying(false);
+    setLastMove(null);
+    setXCount(0);
     setState({
       history: [
         {
@@ -74,46 +79,21 @@ const Game = () => {
     });
     handleBoardClick();
     calculateWinner(squares, width);
+    setLastMove(i);
+    if (state.xIsNext === true) {
+      setXCount(xCount + 1);
+    }
   };
 
-  const jumpTo = (step) => {
+  const jumpTo = (step, index) => {
+    setLastMove(index);
     setState({
       ...state,
       stepNumber: step,
       xIsNext: step % 2 === 0,
     });
+    setXCount(Math.ceil(step / 2));
   };
-
-  // const calculateWinner = (squares) => {
-  //   // 5-in-a-row
-  //   // row case
-  //   let plainBoardRow = "";
-  //   let plainBoardCol = "";
-  //   for (let i = 0; i < width; i++) {
-  //     for (let j = 0; j < height; j++) {
-  //       if (squares[j + i * width] === null)
-  //         plainBoardRow = plainBoardRow.concat("x");
-  //       else if (squares[j + i * width] === "X")
-  //         plainBoardRow = plainBoardRow.concat(1);
-  //       else plainBoardRow = plainBoardRow.concat(0);
-  //     }
-  //     plainBoardRow = plainBoardRow.concat(" ");
-  //   }
-
-  //   // col case
-  //   for (let i = 0; i < width; i++) {
-  //     for (let j = 0; j < height; j++) {
-  //       if (squares[i + j * height] === null)
-  //         plainBoardCol = plainBoardCol.concat("x");
-  //       else if (squares[i + j * height] === "X")
-  //         plainBoardCol = plainBoardCol.concat(1);
-  //       else plainBoardCol = plainBoardCol.concat(0);
-  //     }
-  //     plainBoardCol = plainBoardCol.concat(" ");
-  //   }
-
-  //   // diagon
-  // };
 
   const calculateWinner = (squares, width) => {
     const winningLines = [
@@ -133,9 +113,10 @@ const Game = () => {
             return [squares[i], line];
           }
         }
-        console.log(lines);
       }
     }
+
+    if (xCount > (width * height) / 2) return ["Draw", null];
 
     return [null, null];
   };
@@ -166,7 +147,7 @@ const Game = () => {
   const getColumn = (index, width, height) => {
     let line = [];
     for (let i = 0; i < 5; i++) {
-      if ((index + i * width) / width < height - 1) {
+      if ((index + i * width) / width < height) {
         line.push(index + i * width);
       }
     }
@@ -178,11 +159,10 @@ const Game = () => {
     for (let i = 0; i < 5; i++) {
       if (
         (index % width) + i < width &&
-        Math.floor((index + i * width) / width) < height - 1
+        Math.floor((index + i * width) / width) < height
       )
         line.push(index + i * (width + 1));
     }
-    console.log(line);
     return line;
   };
 
@@ -191,7 +171,7 @@ const Game = () => {
     for (let i = 0; i < 5; i++) {
       if (
         (index % width) - i + 1 > 0 &&
-        Math.floor((index + i * width) / width) < height - 1
+        Math.floor((index + i * width) / width) < height
       )
         line.push(index + i * (width - 1));
     }
@@ -220,7 +200,15 @@ const Game = () => {
         (${step.coordinate[0]};${step.coordinate[1]})`
         : "Go to game start";
 
-      return [state, move, step.isXTurn, () => jumpTo(move), desc];
+      return [
+        state,
+        move,
+        step.isXTurn,
+        step.Index,
+        () => jumpTo(move, step.index),
+        desc,
+        lastMove,
+      ];
       // return (
       //   <li key={move}>
       //     <button onClick={() => jumpTo(move)}>{desc}</button>
@@ -239,6 +227,9 @@ const Game = () => {
                 squares={state.history[state.stepNumber].squares}
                 onClick={(i) => handleClick(i)}
                 markWinner={line}
+                winner={winner}
+                lastMove={lastMove}
+                xIsNext={state.xIsNext}
               />
             </div>
           </div>
@@ -249,7 +240,8 @@ const Game = () => {
             winner={winner}
             moves={moves}
             min={min}
-            max={max}
+            maxWidth={maxWidth}
+            maxHeight={maxHeight}
             width={width}
             height={height}
             onWidthChange={handleBoardWidthChange}

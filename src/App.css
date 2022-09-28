@@ -24,7 +24,7 @@ li {
 
 #sidebar {
   width: 16.66%;
-  height: 100vh;
+  height: 80vh;
   float: left;
   background-color: #eee;
   padding: 20px;
@@ -53,6 +53,15 @@ li {
   color: #999;
 }
 
+@keyframes squares-animation {
+  from {
+    scale: 0.5;
+  }
+  to {
+    scale: 1;
+  }
+}
+
 .square {
   background: #fff;
   border: 1px solid #999;
@@ -67,6 +76,9 @@ li {
   text-align: center;
   width: 34px;
   position: relative;
+  animation-name: squares-animation;
+  animation-duration: 0.3s;
+  transition: all 0.2s ease-in-out;
 }
 
 .square:focus {
@@ -84,6 +96,11 @@ li {
 
 .game-info {
   margin-left: 20px;
+}
+
+.history-bar {
+  max-height: 500px;
+  overflow: scroll;
 }
 
 .history-button button {
@@ -151,4 +168,28 @@ li {
 .sidebar-settings {
   display: flex;
   justify-content: space-between;
+}
+
+.last-move {
+  z-index: 9999;
+  transform: scale(1.2);
+  transition: all 0.2s;
+}
+
+.hover_player-1::before,
+.hover_player-2::before {
+  content: "";
+  opacity: 0;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.hover_player-1:hover::before {
+  content: "X";
+  opacity: 0.3;
+}
+
+.hover_player-2:hover::before {
+  content: "O";
+  opacity: 0.3;
 }

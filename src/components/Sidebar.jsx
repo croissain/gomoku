@@ -7,7 +7,8 @@ const Sidebar = ({
   winner,
   moves,
   min,
-  max,
+  maxWidth,
+  maxHeight,
   width,
   height,
   onWidthChange,
@@ -19,13 +20,16 @@ const Sidebar = ({
   return (
     <>
       <div>
-        {winner
+        {winner === "Draw"
+          ? winner
+          : winner
           ? "Winner: " + winner
           : "Next player: " + (state.xIsNext ? "X" : "O")}
       </div>
       <Resizer
         min={min}
-        max={max}
+        maxWidth={maxWidth}
+        maxHeight={maxHeight}
         width={width}
         height={height}
         onWidthChange={onWidthChange}
@@ -38,7 +42,7 @@ const Sidebar = ({
           {sortAsc ? "ASC" : "DESC"}
         </button>
       </div>
-      <ol className={`${sortAsc ? "" : "flex-reverse"}`}>
+      <ol className={`${sortAsc ? "" : "flex-reverse"} history-bar`}>
         {moves.map((move) => {
           return (
             <>
@@ -47,8 +51,9 @@ const Sidebar = ({
                 key={move[1]}
                 moveNum={move[1]}
                 isXTurn={move[2]}
-                jumpTo={move[3]}
-                desc={move[4]}
+                jumpTo={move[4]}
+                desc={move[5]}
+                lastMove={move[6]}
               />
             </>
           );

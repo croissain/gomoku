@@ -1,6 +1,7 @@
 const Resizer = ({
   min,
-  max,
+  maxWidth,
+  maxHeight,
   width,
   height,
   onWidthChange,
@@ -19,7 +20,7 @@ const Resizer = ({
             className="slider-input"
             type="range"
             min={min}
-            max={max}
+            max={maxWidth}
             value={width}
             onChange={onWidthChange}
           />
@@ -30,7 +31,7 @@ const Resizer = ({
             className="slider-input"
             type="range"
             min={min}
-            max={max}
+            max={maxHeight}
             value={height}
             onChange={onHeightChange}
           />
