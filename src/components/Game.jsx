@@ -1,4 +1,5 @@
 import { useState } from "react";
+import audio from "../assets/click2.wav";
 // import Modal from "react-modal";
 
 import Board from "./Board";
@@ -6,8 +7,9 @@ import Sidebar from "./Sidebar";
 
 const Game = () => {
   const min = 9;
-  const maxWidth = 46;
-  const maxHeight = 28;
+  const maxWidth = 35;
+  const maxHeight = 20;
+
   const [width, setWidth] = useState(min);
   const [height, setHeight] = useState(min);
 
@@ -29,6 +31,7 @@ const Game = () => {
   // const [modalOnResultIsOpen, setModalOnResultIsOpen] = useState(true);
 
   const handleBoardClick = () => {
+    new Audio(audio).play();
     setIsPlaying(true);
   };
 

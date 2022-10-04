@@ -5,6 +5,12 @@
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
   margin: 20px;
+  /* background-color: #2a0944; */
+  background-image: url("https://source.unsplash.com/random/?city,night");
+  background-repeat: no-repeat;
+  height: 100vh;
+  background-size: cover;
+  overflow: hidden;
 }
 
 ul,
@@ -17,17 +23,27 @@ li {
   margin-bottom: 8px;
 }
 
+/* ============ main ============= */
+
 #main {
   width: 83.33%;
+  height: 100%;
   float: left;
+  position: relative;
 }
 
-#sidebar {
-  width: 16.66%;
+.App {
+  /* background-color: #ccc; */
   height: 80vh;
-  float: left;
-  background-color: #eee;
-  padding: 20px;
+  width: 80vw;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(128, 128, 128, 0.37);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 15px;
 }
 
 .size-field {
@@ -50,7 +66,7 @@ li {
   top: 0;
   left: 0;
   line-height: 12px;
-  color: #999;
+  color: #eee;
 }
 
 @keyframes squares-animation {
@@ -63,18 +79,21 @@ li {
 }
 
 .square {
-  background: #fff;
-  border: 1px solid #999;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(128, 128, 128, 0.37);
+  border-radius: 10%;
+  border: 1px solid #ddd;
+  outline: 0px solid #ddd;
   float: left;
   font-size: 24px;
   font-weight: bold;
   line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
+  /* margin-right: -1px;
+  margin-top: -1px; */
   padding: 0;
   text-align: center;
-  width: 34px;
+  height: 35px;
+  width: 35px;
   position: relative;
   animation-name: squares-animation;
   animation-duration: 0.3s;
@@ -99,7 +118,6 @@ li {
 }
 
 .history-bar {
-  max-height: 500px;
   overflow: scroll;
 }
 
@@ -119,12 +137,26 @@ li {
 }
 
 .bold {
-  color: red;
+  background: red;
+
+  color: white !important;
 }
 
 .flex-reverse {
   display: flex;
   flex-direction: column-reverse;
+}
+
+/* ========= side bar ========== */
+
+#sidebar {
+  width: 16.66%;
+  height: 100%;
+  float: left;
+  background-color: rgb(236, 236, 236);
+  padding: 20px;
+  border-radius: 0 15px 15px 0;
+  overflow-y: hidden;
 }
 
 .history-cell {
@@ -141,11 +173,19 @@ li {
 }
 
 .player-1 {
-  background-color: brown;
+  background-color: #8bbccc;
 }
 
 .player-2 {
-  background-color: royalblue;
+  background-color: #ff884b;
+}
+
+.player-1-played {
+  color: #8bbccc;
+}
+
+.player-2-played {
+  color: #ff884b;
 }
 
 .hide {
@@ -171,7 +211,7 @@ li {
 }
 
 .last-move {
-  z-index: 9999;
+  z-index: 9;
   transform: scale(1.2);
   transition: all 0.2s;
 }
@@ -182,6 +222,16 @@ li {
   opacity: 0;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+}
+
+.hover_player-1:hover {
+  z-index: 99;
+  outline: 2px solid #8bbccc;
+}
+
+.hover_player-2:hover {
+  z-index: 99;
+  outline: 2px solid #ff884b;
 }
 
 .hover_player-1:hover::before {
